@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How It Works — PriceCheck</title>
+<meta name="description" content="Learn how the PriceCheck price-per-unit calculator works and why comparing by unit cost saves you money.">
+<link rel="stylesheet" href="style.css">
+<style>
+.page-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+.page-subtitle { color: var(--ink-3); font-size: 0.95rem; font-weight: 300; margin-bottom: 2rem; }
+
+.steps { display: flex; flex-direction: column; gap: 1px; margin-bottom: 2.5rem; }
+.step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  transition: box-shadow 0.18s;
+}
+.step:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.step-num {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--green-light);
+  border: 2px solid var(--green-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Lora', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--green);
+  flex-shrink: 0;
+}
+.step-content h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+.step-content p { font-size: 0.875rem; color: var(--ink-2); line-height: 1.7; }
+.step-content .hint {
+  margin-top: 0.75rem;
+  background: var(--bg);
+  border-left: 3px solid var(--green-mid);
+  padding: 0.6rem 0.875rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.explainer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.explainer h2 { font-family: 'Lora', serif; font-size: 1.2rem; margin-bottom: 1rem; font-weight: 600; }
+.formula-box {
+  background: var(--ink);
+  color: white;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-family: monospace;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+.formula-box span { color: #7ec8a0; }
+.explainer p { font-size: 0.875rem; color: var(--ink-2); line-height: 1.7; margin-bottom: 0.75rem; }
+.explainer p:last-child { margin-bottom: 0; }
+
+.example-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 1rem; }
+.example-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding: 6px 10px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.example-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+.example-table tr.winner td { background: var(--green-light); }
+.example-table td.ppu { font-weight: 700; }
+.winner-badge {
+  display: inline-block;
+  background: var(--green);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+.cta-box {
+  background: var(--green);
+  border-radius: var(--r);
+  padding: 2rem;
+  text-align: center;
+  color: white;
+}
+.cta-box h3 { font-family: 'Lora', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+.cta-box p { font-size: 0.875rem; opacity: 0.8; margin-bottom: 1.25rem; }
+.cta-box .btn-primary { background: white; color: var(--green-dark); }
+.cta-box .btn-primary:hover { background: var(--green-light); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Price<span>Check</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Calculator</a></li>
+      <li><a href="how-it-works.html" class="active">How It Works</a></li>
+      <li><a href="tips.html">Shopping Tips</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="ad-slot"><b>Advertisement</b>728 × 90 · Replace with your AdSense code</div>
+
+  <h1 class="page-title">How It Works</h1>
+  <p class="page-subtitle">Understanding price per unit and how to use this calculator to shop smarter.</p>
+
+  <!-- Step by step -->
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Choose your measure type</h3>
+        <p>Select how the products are measured — by weight (g, kg), volume (ml, L), piece count (tablets, sheets), or area (m²). Pick the one that matches what's printed on the packaging.</p>
+        <div class="hint">Example: Laundry detergent → Volume (ml or L). Paracetamol → Count (tablets). Cheese → Weight (g).</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Select your unit and currency</h3>
+        <p>Pick the specific unit shown on the pack, and set the currency you're shopping in. The calculator supports SGD, USD, MYR, AUD, GBP, EUR, JPY, and HKD.</p>
+        <div class="hint">Tip: Keep units consistent across all products you're comparing — e.g. all in ml, not mixing ml and L.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Enter each product's details</h3>
+        <p>For each brand or pack, enter the brand name (and optionally a description like "1L carton"), the shelf price, and the quantity or size. Add as many products as you need.</p>
+        <div class="hint">The description field is optional — use it to tell apart different pack sizes of the same brand (e.g. "500ml" vs "1L bottle").</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Click Compare</h3>
+        <p>Hit the "Compare →" button. The calculator divides the price by the quantity for each product and ranks them from cheapest to most expensive per unit.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h3>Read your results</h3>
+        <p>The best-value product is highlighted in green. The priciest is flagged in red. You'll also see a verdict summarising how much you save by choosing the best option.</p>
+        <div class="hint">Use the sort dropdown in the results to re-order by cheapest, priciest, or name.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The formula -->
+  <div class="explainer">
+    <h2>The Formula</h2>
+    <div class="formula-box">Price Per Unit = <span>Total Price ÷ Pack Quantity</span></div>
+    <p>That's it. Simple division — but supermarkets rely on the fact that most shoppers don't do this mental maths while rushing through the aisle. A 1L bottle for $3.20 looks cheaper than a 500ml bottle for $1.80, but the per-unit calculation tells you otherwise.</p>
+    <p>This tool does the maths instantly across all the brands you enter, so you can make the right call in seconds.</p>
+
+    <h2 style="margin-top:1.25rem;">A Real-World Example</h2>
+    <p>Here's a typical comparison for orange juice at a supermarket:</p>
+    <table class="example-table">
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>Pack size</th>
+          <th>Price</th>
+          <th>Price / ml</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Brand A (small)</td>
+          <td>250 ml</td>
+          <td>S$1.50</td>
+          <td class="ppu">S$0.0060</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Brand B (medium)</td>
+          <td>1,000 ml</td>
+          <td>S$3.80</td>
+          <td class="ppu">S$0.0038</td>
+          <td></td>
+        </tr>
+        <tr class="winner">
+          <td>Brand C (large)</td>
+          <td>2,000 ml</td>
+          <td>S$6.50</td>
+          <td class="ppu">S$0.0033</td>
+          <td><span class="winner-badge">Best value</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem;">Brand C looks expensive at $6.50 — but it's actually 45% cheaper per ml than the small pack from Brand A.</p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>Ready to find the best deal?</h3>
+    <p>Open the calculator and start comparing products in under 30 seconds.</p>
+    <a href="index.html" class="btn btn-primary">Go to Calculator →</a>
+  </div>
+
+  <div class="ad-slot" style="margin-top:1.5rem;"><b>Advertisement</b>728 × 90 · Replace with your AdSense code</div>
+
+</div>
+
+<footer>
+  <p>© 2025 PriceCheck · <a href="about.html">About</a> · <a href="tips.html">Shopping Tips</a> · <a href="how-it-works.html">How It Works</a></p>
+</footer>
+
+</body>
+</html>

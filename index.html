@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Price Per Unit Calculator — PriceCheck</title>
+<meta name="description" content="Compare price per unit across different brands and pack sizes. Find the best value instantly — free tool.">
+<link rel="stylesheet" href="style.css">
+<style>
+/* ── HERO (calculator page only) ── */
+.hero {
+  text-align: center;
+  padding: 2.5rem 0 2rem;
+}
+.hero h1 {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+.hero h1 em { font-style: italic; color: var(--green); }
+.hero p { color: var(--ink-3); font-size: 0.95rem; max-width: 440px; margin: 0 auto; font-weight: 300; }
+
+/* ── CALCULATOR ── */
+.calc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.calc-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.toolbar-label { font-size: 0.75rem; font-weight: 600; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+
+.pill-group { display: flex; gap: 4px; }
+.pill {
+  background: none;
+  border: 1px solid var(--border-2);
+  border-radius: 20px;
+  padding: 4px 13px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill:hover { border-color: var(--green); color: var(--green); }
+.pill.active { background: var(--green); border-color: var(--green); color: white; }
+
+.toolbar-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+
+.select-inline {
+  border: 1px solid var(--border-2);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.82rem;
+  color: var(--ink);
+  background: var(--bg);
+  outline: none;
+  cursor: pointer;
+}
+.select-inline:focus { border-color: var(--green); }
+
+.calc-body { padding: 1.25rem; }
+
+/* Entries header */
+.entries-head {
+  display: grid;
+  grid-template-columns: 1.2fr 1.4fr 0.9fr 0.9fr 36px;
+  gap: 8px;
+  padding: 0 2px;
+  margin-bottom: 6px;
+}
+.entries-head span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Product rows */
+.entries-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 1rem; }
+.entry-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.4fr 0.9fr 0.9fr 36px;
+  gap: 8px;
+  align-items: center;
+}
+.e-input {
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--bg);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s, background 0.15s;
+}
+.e-input:focus { border-color: var(--green); background: white; }
+.e-input::placeholder { color: var(--ink-3); font-size: 0.8rem; }
+.e-input.price-col { font-weight: 500; }
+
+.rm-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink-3);
+  font-size: 1rem;
+  line-height: 1;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.rm-btn:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
+
+.action-row { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 0.25rem; }
+
+/* ── RESULTS ── */
+.results-wrap { display: none; border-top: 1px solid var(--border); margin-top: 1.25rem; padding-top: 1.25rem; }
+.results-wrap.show { display: block; }
+
+.results-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.results-title { font-weight: 600; font-size: 0.9rem; }
+
+.results-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.results-table thead tr { border-bottom: 2px solid var(--ink); }
+.results-table thead th {
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.results-table thead th:last-child { text-align: right; }
+.results-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+.results-table tbody tr:hover { background: var(--bg); }
+.results-table tbody td { padding: 10px 10px; vertical-align: middle; }
+.results-table tbody td:last-child { text-align: right; }
+
+.medal { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; font-size: 0.7rem; font-weight: 700; }
+.m1 { background: #ffd700; color: #6b4f00; }
+.m2 { background: #c0c0c0; color: #3a3a3a; }
+.m3 { background: #cd7f32; color: #2a0e00; }
+.mn { background: var(--bg); color: var(--ink-3); border: 1px solid var(--border); }
+
+.brand-cell strong { display: block; font-weight: 600; }
+.brand-cell small { font-size: 0.75rem; color: var(--ink-3); }
+
+.tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-top: 3px;
+}
+.tag-best { background: var(--green-light); color: var(--green-dark); }
+.tag-worst { background: var(--red-light); color: var(--red); }
+
+.ppu-val { font-weight: 700; font-size: 0.95rem; }
+.vs-val { font-size: 0.78rem; color: var(--ink-3); }
+
+.bar-track { width: 72px; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; display: inline-block; }
+.bar-fill { height: 100%; border-radius: 3px; }
+.bar-green { background: var(--green); }
+.bar-red { background: var(--red); }
+
+.best-tr { background: var(--green-light) !important; }
+.worst-tr { background: var(--red-light) !important; }
+
+.verdict {
+  margin-top: 1rem;
+  background: var(--green-light);
+  border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.verdict strong { color: var(--green-dark); }
+
+@media (max-width: 560px) {
+  .entries-head, .entry-row {
+    grid-template-columns: 1fr 1fr 36px;
+  }
+  .entries-head span:nth-child(2),
+  .entry-row .e-col:nth-child(2) { display: none; }
+  .calc-toolbar { gap: 0.6rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Price<span>Check</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Calculator</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="tips.html">Shopping Tips</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Top Ad -->
+  <div class="ad-slot"><b>Advertisement</b>728 × 90 · Replace with your AdSense code</div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Find the <em>Best Value</em><br>Before You Buy</h1>
+    <p>Enter products from different brands, get an instant cost-per-unit comparison.</p>
+  </div>
+
+  <!-- Calculator Card -->
+  <div class="calc-card">
+
+    <!-- Toolbar -->
+    <div class="calc-toolbar">
+      <span class="toolbar-label">Measure by</span>
+      <div class="pill-group" id="pill-group">
+        <button class="pill active" onclick="setMode('weight', this)">Weight</button>
+        <button class="pill" onclick="setMode('volume', this)">Volume</button>
+        <button class="pill" onclick="setMode('count', this)">Count</button>
+        <button class="pill" onclick="setMode('area', this)">Area</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <span class="toolbar-label">Unit</span>
+      <select class="select-inline" id="unit-sel"></select>
+      <div class="toolbar-sep"></div>
+      <span class="toolbar-label">Currency</span>
+      <select class="select-inline" id="currency-sel">
+        <option value="S$">SGD (S$)</option>
+        <option value="$">USD ($)</option>
+        <option value="RM">MYR (RM)</option>
+        <option value="A$">AUD (A$)</option>
+        <option value="£">GBP (£)</option>
+        <option value="€">EUR (€)</option>
+        <option value="¥">JPY (¥)</option>
+        <option value="HK$">HKD (HK$)</option>
+      </select>
+    </div>
+
+    <!-- Body -->
+    <div class="calc-body">
+      <div class="entries-head">
+        <span>Brand / Name</span>
+        <span>Description</span>
+        <span>Price</span>
+        <span>Qty / Size</span>
+        <span></span>
+      </div>
+      <div class="entries-list" id="entries-list"></div>
+      <div class="action-row">
+        <button class="btn btn-ghost" onclick="addRow()">+ Add product</button>
+        <button class="btn btn-primary" onclick="calculate()">Compare →</button>
+        <button class="btn btn-danger" onclick="resetAll()">Reset</button>
+      </div>
+
+      <!-- Results -->
+      <div class="results-wrap" id="results-wrap">
+        <div class="results-meta">
+          <span class="results-title">Comparison Results</span>
+          <select class="select-inline" id="sort-sel" onchange="renderResults()">
+            <option value="asc">Cheapest first</option>
+            <option value="desc">Priciest first</option>
+            <option value="alpha">Name A–Z</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th style="width:32px;"></th>
+                <th>Product</th>
+                <th>Pack size</th>
+                <th>Total price</th>
+                <th>Price / unit</th>
+                <th>Value</th>
+                <th>vs Best</th>
+              </tr>
+            </thead>
+            <tbody id="results-tbody"></tbody>
+          </table>
+        </div>
+        <div class="verdict" id="verdict-box"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Ad -->
+  <div class="ad-slot" style="margin-top:1.5rem;"><b>Advertisement</b>728 × 90 · Replace with your AdSense code</div>
+
+</div>
+
+<footer>
+  <p>© 2025 PriceCheck · <a href="about.html">About</a> · <a href="tips.html">Shopping Tips</a> · <a href="how-it-works.html">How It Works</a></p>
+</footer>
+
+<script>
+const UNITS = {
+  weight: ['g','kg','oz','lb'],
+  volume: ['ml','L','fl oz'],
+  count: ['pcs','tablets','sheets','sachets','pods','rolls','bags'],
+  area: ['cm²','m²','sq ft'],
+};
+
+let mode = 'weight';
+let rowId = 0;
+let data = [];
+
+function setMode(m, btn) {
+  mode = m;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const sel = document.getElementById('unit-sel');
+  sel.innerHTML = UNITS[m].map(u => `<option>${u}</option>`).join('');
+}
+
+function initUnitSel() {
+  const sel = document.getElementById('unit-sel');
+  sel.innerHTML = UNITS[mode].map(u => `<option>${u}</option>`).join('');
+}
+
+function addRow() {
+  const id = rowId++;
+  const list = document.getElementById('entries-list');
+  const div = document.createElement('div');
+  div.className = 'entry-row';
+  div.id = `row-${id}`;
+  div.innerHTML = `
+    <div class="e-col"><input class="e-input" type="text" placeholder="e.g. Fairprice" id="brand-${id}"></div>
+    <div class="e-col"><input class="e-input" type="text" placeholder="e.g. 1L carton" id="desc-${id}"></div>
+    <div class="e-col"><input class="e-input price-col" type="number" min="0" step="0.01" placeholder="0.00" id="price-${id}"></div>
+    <div class="e-col"><input class="e-input" type="number" min="0" step="0.01" placeholder="0" id="qty-${id}"></div>
+    <button class="rm-btn" onclick="removeRow(${id})">×</button>
+  `;
+  list.appendChild(div);
+}
+
+function removeRow(id) {
+  document.getElementById(`row-${id}`)?.remove();
+}
+
+function resetAll() {
+  document.getElementById('entries-list').innerHTML = '';
+  document.getElementById('results-wrap').classList.remove('show');
+  rowId = 0;
+  data = [];
+  addRow(); addRow(); addRow();
+}
+
+function getUnit() { return document.getElementById('unit-sel').value; }
+function getSym()  { return document.getElementById('currency-sel').value; }
+
+function calculate() {
+  data = [];
+  document.querySelectorAll('.entry-row').forEach(row => {
+    const id = row.id.replace('row-','');
+    const brand = document.getElementById(`brand-${id}`)?.value.trim() || 'Unknown';
+    const desc  = document.getElementById(`desc-${id}`)?.value.trim() || '';
+    const price = parseFloat(document.getElementById(`price-${id}`)?.value);
+    const qty   = parseFloat(document.getElementById(`qty-${id}`)?.value);
+    if (!isNaN(price) && !isNaN(qty) && price > 0 && qty > 0) {
+      data.push({ brand, desc, price, qty, ppu: price / qty });
+    }
+  });
+  if (data.length < 2) { alert('Please enter at least 2 valid products.'); return; }
+  document.getElementById('results-wrap').classList.add('show');
+  renderResults();
+  document.getElementById('results-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderResults() {
+  const sort = document.getElementById('sort-sel').value;
+  let rows = [...data];
+  if (sort === 'asc')   rows.sort((a,b) => a.ppu - b.ppu);
+  else if (sort==='desc') rows.sort((a,b) => b.ppu - a.ppu);
+  else rows.sort((a,b) => a.brand.localeCompare(b.brand));
+
+  const best  = Math.min(...rows.map(r => r.ppu));
+  const worst = Math.max(...rows.map(r => r.ppu));
+  const unit  = getUnit();
+  const sym   = getSym();
+  const isCheapFirst = sort === 'asc';
+
+  const tbody = document.getElementById('results-tbody');
+  tbody.innerHTML = '';
+
+  rows.forEach((r, i) => {
+    const isB = r.ppu === best;
+    const isW = r.ppu === worst && rows.length > 1;
+    const barW = isB ? 100 : Math.round((best / r.ppu) * 100);
+    const vsB  = isB ? '—' : `+${((r.ppu - best) / best * 100).toFixed(1)}%`;
+    const medalClass = isCheapFirst ? (i===0?'m1':i===1?'m2':i===2?'m3':'mn') : 'mn';
+    const trClass = isB ? 'best-tr' : isW ? 'worst-tr' : '';
+    const tag = isB ? '<span class="tag tag-best">✓ Best value</span>' : isW ? '<span class="tag tag-worst">↑ Priciest</span>' : '';
+
+    const tr = document.createElement('tr');
+    tr.className = trClass;
+    tr.innerHTML = `
+      <td><span class="medal ${medalClass}">${i+1}</span></td>
+      <td class="brand-cell"><strong>${esc(r.brand)}</strong><small>${esc(r.desc)}</small>${tag}</td>
+      <td>${r.qty.toLocaleString()} ${unit}</td>
+      <td>${sym}${r.price.toFixed(2)}</td>
+      <td class="ppu-val">${sym}${r.ppu.toFixed(4)}<span style="font-size:0.72rem;font-weight:400;color:var(--ink-3)"> /${unit}</span></td>
+      <td><span class="bar-track"><span class="bar-fill ${isW&&!isB?'bar-red':'bar-green'}" style="width:${barW}%"></span></span></td>
+      <td class="vs-val">${vsB}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  const sortedAsc = [...data].sort((a,b) => a.ppu - b.ppu);
+  const b = sortedAsc[0], w = sortedAsc[sortedAsc.length-1];
+  const saving = ((1 - b.ppu/w.ppu)*100).toFixed(1);
+  document.getElementById('verdict-box').innerHTML =
+    `<strong>${esc(b.brand)}</strong> is the best value at <strong>${sym}${b.ppu.toFixed(4)} per ${unit}</strong>.` +
+    (data.length > 1 ? ` Choosing it over <strong>${esc(w.brand)}</strong> saves you <strong>${saving}%</strong> per ${unit}.` : '');
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Init
+initUnitSel();
+addRow(); addRow(); addRow();
+</script>
+</body>
+</html>

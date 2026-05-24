@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Shopping Tips — PriceCheck</title>
+<meta name="description" content="10 practical tips to save money at the supermarket using price per unit comparisons and smart shopping habits.">
+<link rel="stylesheet" href="style.css">
+<style>
+.page-title {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+.page-subtitle { color: var(--ink-3); font-size: 0.95rem; font-weight: 300; margin-bottom: 2rem; }
+
+.tips-grid { display: flex; flex-direction: column; gap: 12px; }
+.tip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 1rem;
+  align-items: start;
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+.tip-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.07); border-color: var(--border-2); }
+.tip-num {
+  font-family: 'Lora', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--green-mid);
+  line-height: 1;
+  padding-top: 2px;
+}
+.tip-body h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+.tip-body p { font-size: 0.865rem; color: var(--ink-2); line-height: 1.7; }
+.tip-body .callout {
+  margin-top: 0.6rem;
+  background: var(--green-light);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--green-dark);
+  font-weight: 500;
+}
+
+.section-heading {
+  font-family: 'Lora', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px solid var(--border);
+}
+
+.myth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 2rem; }
+@media (max-width:560px) { .myth-grid { grid-template-columns: 1fr; } }
+.myth-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.1rem;
+  background: var(--surface);
+}
+.myth-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.myth-label.myth { color: var(--red); }
+.myth-label.truth { color: var(--green); }
+.myth-card p { font-size: 0.845rem; color: var(--ink-2); line-height: 1.6; }
+
+.cta-box {
+  background: var(--green);
+  border-radius: var(--r);
+  padding: 2rem;
+  text-align: center;
+  color: white;
+  margin-top: 2rem;
+}
+.cta-box h3 { font-family: 'Lora', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
+.cta-box p { font-size: 0.875rem; opacity: 0.8; margin-bottom: 1.25rem; }
+.cta-box .btn-primary { background: white; color: var(--green-dark); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Price<span>Check</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Calculator</a></li>
+      <li><a href="how-it-works.html">How It Works</a></li>
+      <li><a href="tips.html" class="active">Shopping Tips</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="ad-slot"><b>Advertisement</b>728 × 90 · Replace with your AdSense code</div>
+
+  <h1 class="page-title">Smart Shopping Tips</h1>
+  <p class="page-subtitle">10 practical habits that will save you money every time you shop — without clipping a single coupon.</p>
+
+  <div class="tips-grid">
+
+    <div class="tip-card">
+      <div class="tip-num">01</div>
+      <div class="tip-body">
+        <h3>Never judge by shelf price alone</h3>
+        <p>A S$2.50 product is not necessarily cheaper than a S$4.00 one. The only number that matters is cost per unit — per gram, ml, or piece. Train yourself to always divide the price by the quantity before you decide.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">02</div>
+      <div class="tip-body">
+        <h3>Bigger packs are not always better value</h3>
+        <p>Supermarkets sometimes price smaller packs more competitively when they're on promotion. Always check the per-unit cost of every available size — the 500g pack on offer might beat the "economy" 2kg pack.</p>
+        <div class="callout">Use PriceCheck to compare all available sizes of the same product before buying the big one.</div>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">03</div>
+      <div class="tip-body">
+        <h3>Look above and below eye level</h3>
+        <p>Supermarkets pay premium fees to place products at eye level — those are typically not the best deals. The store brands and budget options are usually on the bottom shelves or the top shelf. Always scan the full shelving unit.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">04</div>
+      <div class="tip-body">
+        <h3>Store brands vs name brands — do the maths</h3>
+        <p>Own-brand or house-brand products are often manufactured in the same factories as premium brands. The per-unit price can be 20–50% lower. Run a comparison before assuming the name brand is worth the premium.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">05</div>
+      <div class="tip-body">
+        <h3>Compare across supermarkets before a big shop</h3>
+        <p>Prices for the same product can vary significantly between NTUC FairPrice, Cold Storage, Giant, and Sheng Siong. For staples you buy regularly, a quick comparison before a big monthly shop can add up to real savings.</p>
+        <div class="callout">Note the price and pack size from each store, then enter them into PriceCheck to see who wins.</div>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">06</div>
+      <div class="tip-body">
+        <h3>Promotions can mask bad value</h3>
+        <p>"Buy 2 Get 1 Free" sounds great — but only if the base price is competitive. Calculate the effective per-unit price of the bundle and compare it against the competition. Sometimes the sale price of a rival brand is still cheaper.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">07</div>
+      <div class="tip-body">
+        <h3>For perishables, bigger is not always smarter</h3>
+        <p>The best per-unit value is useless if half the product gets thrown away. For fresh produce, dairy, or bread — only buy the quantity you'll realistically use before it expires. Waste cancels out any savings.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">08</div>
+      <div class="tip-body">
+        <h3>Stock up on non-perishables at their best unit price</h3>
+        <p>For items that don't expire quickly — rice, cooking oil, canned goods, toiletries, cleaning products — it makes sense to buy more when you find an exceptional per-unit price. Set a mental "buy more" threshold and stock up when you hit it.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">09</div>
+      <div class="tip-body">
+        <h3>Don't mix up your units</h3>
+        <p>When comparing products, make sure you're comparing like with like. 1kg vs 500g — straightforward. But 750ml vs 1L vs 1.5L requires careful calculation. The PriceCheck calculator keeps things consistent so you don't make a mistake under the bright supermarket lights.</p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">10</div>
+      <div class="tip-body">
+        <h3>Build a "price memory" for your regulars</h3>
+        <p>For the 10–15 products you buy every week, memorise their best per-unit price. Over time, you'll be able to instantly spot when something is genuinely a good deal versus just being marketed as one. PriceCheck helps you establish that baseline.</p>
+        <div class="callout">Bookmark PriceCheck on your phone so you can run quick comparisons right at the shelf.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Myths section -->
+  <h2 class="section-heading">Common Shopping Myths — Busted</h2>
+  <div class="myth-grid">
+    <div class="myth-card">
+      <div class="myth-label myth">✗ Myth</div>
+      <p>"The bulk pack is always cheaper per unit."</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label truth">✓ Truth</div>
+      <p>Supermarkets sometimes price smaller packs at a better unit cost, especially during promotions. Always check.</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label myth">✗ Myth</div>
+      <p>"Premium brands are higher quality, so the price is justified."</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label truth">✓ Truth</div>
+      <p>Many store-brand products are made by the same manufacturers. You're often just paying for packaging and advertising.</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label myth">✗ Myth</div>
+      <p>"If it's on sale, it's a great deal."</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label truth">✓ Truth</div>
+      <p>A sale price is only good relative to alternatives. Another brand at full price may still be cheaper per unit.</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label myth">✗ Myth</div>
+      <p>"It's too much effort to compare prices on the spot."</p>
+    </div>
+    <div class="myth-card">
+      <div class="myth-label truth">✓ Truth</div>
+      <p>With PriceCheck on your phone, a comparison takes under 30 seconds. Open it at the shelf.</p>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3>Put these tips into action</h3>
+    <p>Open the calculator and compare your regular grocery items right now.</p>
+    <a href="index.html" class="btn btn-primary">Open the Calculator →</a>
+  </div>
+
+  <div class="ad-slot" style="margin-top:1.5rem;"><b>Advertisement</b>728 × 90 · Replace with your AdSense code</div>
+
+</div>
+
+<footer>
+  <p>© 2025 PriceCheck · <a href="about.html">About</a> · <a href="tips.html">Shopping Tips</a> · <a href="how-it-works.html">How It Works</a></p>
+</footer>
+
+</body>
+</html>
